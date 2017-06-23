@@ -67,10 +67,9 @@ void Board::paintEvent(QPaintEvent *event) {
     for (int i = 0; i < RowCount; i++) {
         for(int j = 0; j < ColCount; j++) {
             //BasicCube *label = new BasicCube;
-            //QLabel *label = new QLabel(QString("label %1").arg(i * ColCount + j + 1));
-            //QPushButton *Butt = new QPushButton;
-            //BoardLayout->addWidget(Butt, i, j);
-            //this->setLayout(BoardLayout);
+            QLabel *label = new QLabel(QString("label %1").arg(i * ColCount + j + 1));
+            BoardLayout->addWidget(label, i, j);
+            this->setLayout(BoardLayout);
             //cub->DrowShape(this,i,j,10,10);
         }
     }

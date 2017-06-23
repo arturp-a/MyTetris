@@ -31,16 +31,17 @@ BasicCube::BasicCube() {
 }
 
 void BasicCube::DrowShape(QWidget *WidgetToPaint, int left, int top, int width, int height){
-    QPainter painter(WidgetToPaint);
-//    int left = 50;
-//    int top = 50;
-//    int width = 100;
-//    int height = 125;
-    QRect r1;
-    //QRect r2(QPoint(left, top), QSize(width, height));
-    r1.setRect(left, top, width, height);
-    painter.setPen(Qt::blue);
-    painter.drawRect(r1);
+//    QPainter painter(WidgetToPaint);
+////    int left = 50;
+////    int top = 50;
+////    int width = 100;
+////    int height = 125;
+//    QRect r1;
+//    //QRect r2(QPoint(left, top), QSize(width, height));
+//    r1.setRect(left, top, width, height);
+//    painter.setPen(Qt::blue);
+//    painter.drawRect(r1);
+
 }
 
 void Square::DrowShape(QWidget *WidgetToPaint, int left,int top, int width, int height){
