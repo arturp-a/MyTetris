@@ -6,6 +6,10 @@
 #include <QGridLayout>
 #include <QLabel>
 #include <QPushButton>
+
+#include <QBrush>
+#include <QPen>
+#include <QPixmap>
 class Board  : public QWidget
 {
 public:
@@ -24,8 +28,6 @@ protected:
 protected:
     void paintEvent(QPaintEvent *event);
 private:
-    enum { BoardWidth = 10, BoardHeight = 22 };
-    //Shape shape[]
     int **WidgetMatrix;
     int RowCount;
     int ColCount;
@@ -33,6 +35,8 @@ private:
     int Width;
     Square aa;
     QGridLayout *BoardLayout;
+    QPen pen;
+    QBrush brush;
 
     
 };

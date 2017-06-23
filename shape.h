@@ -12,6 +12,11 @@ public:
     virtual void DrowShape(QWidget *WidgetToPaint, int left,int top, int width, int height)=0;
 public:
     int **ShapeMatrix;
+    QWidget *WidgetToPaint;
+    int left;
+    int top;
+    int width;
+    int height;
 };
 
 class Square :public Shape {
@@ -19,14 +24,13 @@ public:
     Square();
     void CreateShape();
     void DrowShape(QWidget *WidgetToPaint, int left,int top, int width, int height);
-private:
-    QPoint X;
-    QPoint Y;
+public:
+
 };
 
-class BasicCube {
+class BasicCube:public Square {
 public:
-    BasicCube();
+    BasicCube(QWidget *WidgetToPaint);
     void DrowShape(QWidget *WidgetToPaint, int left,int top, int width, int height);
 };
 

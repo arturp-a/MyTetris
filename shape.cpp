@@ -2,6 +2,10 @@
 
 Shape::Shape()
     : ShapeMatrix(nullptr)
+    , left(0)
+    , top(0)
+    , width(10)
+    , height(10)
 {
 
 }
@@ -26,21 +30,30 @@ void Square::CreateShape() {
     ShapeMatrix[2][1] = 0;
     ShapeMatrix[2][2] = 0;
 }
-BasicCube::BasicCube() {
-
+BasicCube::BasicCube(QWidget *WidgetToPaint) {
+    QPainter painter(WidgetToPaint);
+//    left = 50;
+//    top = 50;
+//    width = 100;
+//    height = 125;
+    QRect r1;
+    //QRect r2(QPoint(left, top), QSize(width, height));
+    r1.setRect(left, top, width, height);
+    painter.setPen(Qt::red);
+    painter.drawRect(r1);
 }
 
 void BasicCube::DrowShape(QWidget *WidgetToPaint, int left, int top, int width, int height){
-//    QPainter painter(WidgetToPaint);
-////    int left = 50;
-////    int top = 50;
-////    int width = 100;
-////    int height = 125;
-//    QRect r1;
-//    //QRect r2(QPoint(left, top), QSize(width, height));
-//    r1.setRect(left, top, width, height);
-//    painter.setPen(Qt::blue);
-//    painter.drawRect(r1);
+    QPainter painter(WidgetToPaint);
+//    int left = 50;
+//    int top = 50;
+//    int width = 100;
+//    int height = 125;
+    QRect r1;
+    //QRect r2(QPoint(left, top), QSize(width, height));
+    r1.setRect(left, top, width, height);
+    painter.setPen(Qt::blue);
+    painter.drawRect(r1);
 
 }
 
