@@ -7,6 +7,7 @@ TetrisWidget::TetrisWidget(QWidget *parent)
     PlayBoard = new Board(this);
     MainLayout->addWidget(PlayBoard,0,0);
     setLayout(MainLayout);
+    this->setMinimumSize(260,320);
 }
 
 TetrisWidget::~TetrisWidget()

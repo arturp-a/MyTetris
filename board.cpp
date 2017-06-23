@@ -64,10 +64,13 @@ void Board::DrowMatrix(QWidget *WidgetToPaint, int left,int top, int width, int 
 
 void Board::paintEvent(QPaintEvent *event) {
     Q_UNUSED(event);
+    QPixmap big(75,65);
+    big.fill(Qt::red);
     for (int i = 0; i < RowCount; i++) {
         for(int j = 0; j < ColCount; j++) {
             //BasicCube *label = new BasicCube;
-            QLabel *label = new QLabel(QString("label %1").arg(i * ColCount + j + 1));
+            QLabel *label = new QLabel();//QString("label %1").arg(i * ColCount + j + 1));
+            label->setPixmap(big);
             BoardLayout->addWidget(label, i, j);
             this->setLayout(BoardLayout);
             //cub->DrowShape(this,i,j,10,10);
