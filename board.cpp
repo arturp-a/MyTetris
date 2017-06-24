@@ -10,20 +10,33 @@ Board::Board(QWidget *parent)
     , ColCount(0)
     , Height(0)
     , Width(0)
+    , FirstRowToChange(0)
+    , SecondRowToChange(0)
+    , FirstColToChange(0)
+    , SecondColToChange(0)
 {
     Q_UNUSED(parent)
+
+    setFocusPolicy(Qt::StrongFocus);
     BoardLayout = new QGridLayout();
     this->setBackgroundRole(QPalette::Base);
     this->setStyleSheet("background-color:gray;");
     Height = GetWidgetHeight();
     Width = GetWidgetWidth();
     RowCount = 25;
-    ColCount = 9;
+    ColCount = 12;
     WidgetMatrix = new int *[RowCount];
     for (int i(0); i<RowCount; i++) {
         WidgetMatrix[i] = new int [ColCount];
     }
+    //Set the timer
+    Timer = new QBasicTimer;
+    Timer->start(timeoutTime(), this);
+    // Create the emply board
     SetBoard(RowCount,ColCount);
+
+    MySquare = new Square;
+    SetShape();
 }
 Board::~Board(){
     for( int i = 0 ; i < RowCount ; i++ )   {
@@ -39,7 +52,20 @@ bool Board::SetBoard(const unsigned int RowCountToCreate, const unsigned int Col
             WidgetMatrix[i][j] = 0;
         }
     }
+   // PrintMatrix();
     return true;
+}
+
+void Board::PrintMatrix(){
+    QDebug dbg(QtDebugMsg);
+    for(int i=0;i<RowCount;i++)
+        {
+            for(int j=0;j<ColCount;j++)
+            {
+                dbg <<WidgetMatrix[i][j] << " ";
+            }
+        dbg << "\n";
+   }
 }
 
 
@@ -49,32 +75,92 @@ int Board::GetWidgetHeight() {
 int Board::GetWidgetWidth() {
     return this->size().width();
 }
-void Board::DrowMatrix(QWidget *WidgetToPaint, int left,int top, int width, int height) {
+void Board::DrowMatrix(QWidget *WidgetToPaint, int i,int j) {
+    QSize Sz = this->size();
+    int width = Sz.width()/ColCount;
+    int height = Sz.height()/RowCount;
     QPainter painter(WidgetToPaint);
-//    int left = 50;
-//    int top = 50;
-//    int width = 100;
-//    int height = 125;
     QRect r1;
-    //QRect r2(QPoint(left, top), QSize(width, height));
-    r1.setRect(left, top, width, height);
-    painter.setPen(Qt::blue);
-    painter.drawRect(r1);
+    r1.setRect(j*width, i*height, width, height);
+    QPen oPen = painter.pen();
+    QBrush Brush(Qt::SolidPattern);
+    if (WidgetMatrix[i][j] == 1) {
+        oPen.setColor(Qt::black);
+        Brush.setColor(Qt::blue);
+        painter.setBrush(Brush);
+        painter.setPen(oPen);
+        painter.drawRect(r1);
+    } else {
+        oPen.setColor(Qt::black);
+        Brush.setColor(Qt::red);
+        painter.setBrush(Brush);
+        painter.setPen(oPen);
+        painter.drawRect(r1);
+    }
 }
 
 void Board::paintEvent(QPaintEvent *event) {
 
     for (int i = 0; i < RowCount; i++) {
         for(int j = 0; j < ColCount; j++) {
-            BasicCube *label = new BasicCube(this);
-            label->DrowShape(this,i+Width/3,j+Width/4,10,10);
-//            QLabel *label = new QLabel();//QString("label %1").arg(i * ColCount + j + 1));
-//            label->setPixmap(big);
-//            BoardLayout->addWidget(label, i, j);
-//            this->setLayout(BoardLayout);
-            //cub->DrowShape(this,i,j,10,10);
-
+            this->DrowMatrix(this,i,j);
         }
     }
 
 }
+
+void Board::timerEvent(QTimerEvent *event)
+{
+    OneStepDown();
+}
+
+void Board::keyPressEvent(QKeyEvent *event) {
+    if(event->key() == Qt::Key_Right) {
+
+    } else if(event->key() == Qt::Key_Left) {
+        OneStepLeft();
+    } else if (event->key() == Qt::Key_Up) {
+
+    } else if (event->key() == Qt::Key_Down) {
+        OneStepDown();
+    }
+}
+
+void Board::SetShape() {
+    for(int i = 0; i < RowCount; ++i)
+        for(int j = 0; j < ColCount; ++j)
+            WidgetMatrix[i][j] = WidgetMatrix[i][j] + MySquare->ShapeMatrix[i][j];
+}
+
+void Board::OneStepDown() {
+    if(FirstRowToChange <=RowCount && SecondRowToChange <=RowCount) {
+        FirstRowToChange += 1;
+        SecondRowToChange += 1;
+        MySquare->MoveShapeDown(FirstRowToChange+1,SecondRowToChange);
+        MySquare->MoveShapeDown(FirstRowToChange+1-1,SecondRowToChange-1);
+        SetBoard(RowCount,ColCount);
+        SetShape();
+        repaint();
+    } else {
+        //to do
+    }
+}
+
+void Board::OneStepLeft() {
+    if(FirstColToChange >= -3 && SecondColToChange <= ColCount) {
+        FirstColToChange -= 1;
+        SecondColToChange -= 1;
+        MySquare->MoveShapeLeft(FirstColToChange+4,SecondColToChange+5);
+        MySquare->MoveShapeLeft(FirstColToChange+5,SecondColToChange+6);
+        MySquare->MoveShapeLeft(FirstColToChange+6,SecondColToChange+7);
+        SetBoard(RowCount,ColCount);
+        SetShape();
+        repaint();
+    } else {
+        //to do
+    }
+}
+
+
+
+
