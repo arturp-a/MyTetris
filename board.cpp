@@ -14,6 +14,7 @@ Board::Board(QWidget *parent)
     , SecondRowToChange(0)
     , FirstColToChange(0)
     , SecondColToChange(0)
+    , IsShapeOnBottom(false)
 {
     Q_UNUSED(parent)
 
@@ -116,11 +117,11 @@ void Board::timerEvent(QTimerEvent *event)
 
 void Board::keyPressEvent(QKeyEvent *event) {
     if(event->key() == Qt::Key_Right) {
-
+        OneStepRight();
     } else if(event->key() == Qt::Key_Left) {
         OneStepLeft();
     } else if (event->key() == Qt::Key_Up) {
-
+        RotateShapeInBoard();
     } else if (event->key() == Qt::Key_Down) {
         OneStepDown();
     }
@@ -133,7 +134,7 @@ void Board::SetShape() {
 }
 
 void Board::OneStepDown() {
-    if(FirstRowToChange <=RowCount && SecondRowToChange <=RowCount) {
+    if(FirstRowToChange+3 <=RowCount && SecondRowToChange+3 <=RowCount) {
         FirstRowToChange += 1;
         SecondRowToChange += 1;
         MySquare->MoveShapeDown(FirstRowToChange+1,SecondRowToChange);
@@ -142,12 +143,13 @@ void Board::OneStepDown() {
         SetShape();
         repaint();
     } else {
+        IsShapeOnBottom = true;
         //to do
     }
 }
 
 void Board::OneStepLeft() {
-    if(FirstColToChange >= -3 && SecondColToChange <= ColCount) {
+    if(FirstColToChange >= -3 && SecondColToChange <= ColCount && IsShapeOnBottom == false) {
         FirstColToChange -= 1;
         SecondColToChange -= 1;
         MySquare->MoveShapeLeft(FirstColToChange+4,SecondColToChange+5);
@@ -157,10 +159,28 @@ void Board::OneStepLeft() {
         SetShape();
         repaint();
     } else {
+
+        //to do
+    }
+}
+void Board::OneStepRight() {
+    if(FirstColToChange >= -4 && SecondColToChange < 5 && IsShapeOnBottom == false) {
+        FirstColToChange += 1;
+        SecondColToChange += 1;
+        MySquare->MoveShapeRight(FirstColToChange+6,SecondColToChange+5);
+        MySquare->MoveShapeRight(FirstColToChange+5,SecondColToChange+4);
+        MySquare->MoveShapeRight(FirstColToChange+4,SecondColToChange+3);
+        SetBoard(RowCount,ColCount);
+        SetShape();
+        repaint();
+    } else {
         //to do
     }
 }
 
+void Board::RotateShapeInBoard() {
+    //MySquare->RotateShape();
+}
 
 
 

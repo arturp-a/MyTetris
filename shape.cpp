@@ -46,7 +46,7 @@ void Square::CreateShape() {
 
 void Square::MoveShapeDown(int row1, int row2) {
     for (int ia = 0; ia< ColCount; ia++) {
-        if (row1 <=RowCount && row2 <= RowCount) {
+        if (row1 <=RowCount && row2 <= RowCount-1) {
             int temp;
             temp = ShapeMatrix[row1][ia];
             ShapeMatrix[row1][ia] = ShapeMatrix[row2][ia];
@@ -68,9 +68,49 @@ void Square::MoveShapeLeft(int col1, int col2) {
         }
     }
 }
+void Square::MoveShapeRight(int col1, int col2) {
+    for (int ia = 0; ia< RowCount; ia++) {
+        if (col1 >= 0 && col2 <= ColCount) {
+            int temp;
+            temp = ShapeMatrix[ia][col1];
+            ShapeMatrix[ia][col1] = ShapeMatrix[ia][col2];
+            ShapeMatrix[ia][col2] = temp;
+        } else {
+            return;
+        }
+    }
+}
+void Square::RotateShape() {
+    int rows =RowCount;
+    int col = ColCount;
+    int temp;
+
+
+    for (int i = 0; i < rows; i++)
+        {
+            for (int j = i + 1; j < col; j++)
+            {
+                temp = ShapeMatrix[i][j];
+                ShapeMatrix[i][j] = ShapeMatrix[j][i];
+                ShapeMatrix[j][i] = temp;
+            }
+        }
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < col / 2; j++)
+            {
+                temp = ShapeMatrix[i][j];
+                ShapeMatrix[i][j] = ShapeMatrix[i][col - 1 - j];
+                ShapeMatrix[i][col - 1 - j] = temp;
+            }
+        }
+    PrintMatrix();
+}
 
 void Square::PrintMatrix() {
     QDebug dbg(QtDebugMsg);
+    dbg << "\n";
     for(int i=0;i<RowCount;i++)
         {
             for(int j=0;j<ColCount;j++)

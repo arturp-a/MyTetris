@@ -12,6 +12,8 @@ public:
     virtual void CreateShape()=0;
     virtual void MoveShapeDown(int row1, int row2)=0;
     virtual void MoveShapeLeft(int col1, int col2)=0;
+    virtual void MoveShapeRight(int col1, int col2)=0;
+    virtual void RotateShape()=0;
     virtual void DrowShape(QWidget *WidgetToPaint, int left,int top, int width, int height)=0;
 public:
     int **ShapeMatrix;
@@ -28,6 +30,8 @@ public:
     void CreateShape();
     void MoveShapeDown(int row1, int row2);
     void MoveShapeLeft(int col1, int col2);
+    void MoveShapeRight(int col1, int col2);
+    void RotateShape();
     void DrowShape(QWidget *WidgetToPaint, int left,int top, int width, int height);
 public:
     void PrintMatrix();

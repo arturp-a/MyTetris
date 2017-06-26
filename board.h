@@ -29,6 +29,8 @@ public:
 public:
     void OneStepDown();
     void OneStepLeft();
+    void OneStepRight();
+    void RotateShapeInBoard();
 protected:
     int GetWidgetWidth();
     int GetWidgetHeight();
@@ -56,6 +58,7 @@ private:
     int SecondRowToChange;
     int FirstColToChange;
     int SecondColToChange;
+    bool IsShapeOnBottom;
     
 };
 
