@@ -5,6 +5,10 @@
 #include <QWidget>
 #include <QRect>
 #include <QDebug>
+
+//enum TetrixShape { NoShape, ZShape, SShape, LineShape, TShape, SquareShape, LShape, MirroredLShape };
+enum TetrixShape {TShape};
+
 class Shape
 {
 public:
@@ -14,6 +18,7 @@ public:
     virtual void MoveShapeLeft(int col1, int col2)=0;
     virtual void MoveShapeRight(int col1, int col2)=0;
     virtual void RotateShape()=0;
+    virtual void PrintMatrix()=0;
     virtual void DrowShape(QWidget *WidgetToPaint, int left,int top, int width, int height)=0;
 public:
     int **ShapeMatrix;

@@ -31,26 +31,29 @@ public:
     void OneStepLeft();
     void OneStepRight();
     void RotateShapeInBoard();
+    void setRandomShape();
+    Shape* CreateRandomShape(TetrixShape ShapeFromEnum);
 protected:
     int GetWidgetWidth();
     int GetWidgetHeight();
     bool SetBoard(const unsigned int,const unsigned int);
     void DrowMatrix(QWidget *, int i,int j);
-    void PrintMatrix();
-    void SetShape();
+    void PrintMatrix(int row, int col);
+    void SetShape(Shape *MyShape);
 protected:
     void paintEvent(QPaintEvent *event);
     void timerEvent(QTimerEvent *event);
     void keyPressEvent(QKeyEvent *event);
 private:
     QBasicTimer *Timer;
+    QMatrix *TetrisMainMatrix;
     int **WidgetMatrix;
     int RowCount;
     int ColCount;
     int Height;
     int Width;
     int Level;
-    Square *MySquare;
+    Shape *MySquare;
     QGridLayout *BoardLayout;
     QPen pen;
     QBrush brush;

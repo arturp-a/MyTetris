@@ -36,8 +36,10 @@ Board::Board(QWidget *parent)
     // Create the emply board
     SetBoard(RowCount,ColCount);
 
-    MySquare = new Square;
-    SetShape();
+    setRandomShape();
+
+
+
 }
 Board::~Board(){
     for( int i = 0 ; i < RowCount ; i++ )   {
@@ -46,6 +48,26 @@ Board::~Board(){
     delete [] WidgetMatrix;
 }
 
+void Board::setRandomShape()
+{
+    //CreateRandomShape(TetrixShape(qrand() % 7 + 1));
+    CreateRandomShape(TetrixShape(0));
+}
+
+Shape* Board::CreateRandomShape(TetrixShape ShapeFromEnum) {
+    switch (ShapeFromEnum) {
+    case TShape:
+        MySquare = new Square;
+        SetShape(MySquare);
+
+        qDebug() << "asdasd";
+        MySquare->PrintMatrix();
+        return MySquare;
+        break;
+    default:
+        break;
+    }
+}
 
 bool Board::SetBoard(const unsigned int RowCountToCreate, const unsigned int ColCountToCreate) {
     for (unsigned int i = 0; i < RowCountToCreate; i++) {
@@ -53,20 +75,22 @@ bool Board::SetBoard(const unsigned int RowCountToCreate, const unsigned int Col
             WidgetMatrix[i][j] = 0;
         }
     }
-   // PrintMatrix();
+    qDebug() << "start Matrix";
+    PrintMatrix(RowCountToCreate,ColCountToCreate);
     return true;
 }
 
-void Board::PrintMatrix(){
+void Board::PrintMatrix(int row, int col){
     QDebug dbg(QtDebugMsg);
-    for(int i=0;i<RowCount;i++)
+    for(int i=0;i<row;i++)
         {
-            for(int j=0;j<ColCount;j++)
+            for(int j=0;j<col;j++)
             {
                 dbg <<WidgetMatrix[i][j] << " ";
             }
         dbg << "\n";
    }
+    dbg << "\n";
 }
 
 
@@ -127,10 +151,12 @@ void Board::keyPressEvent(QKeyEvent *event) {
     }
 }
 
-void Board::SetShape() {
+void Board::SetShape(Shape *MyShape) {
     for(int i = 0; i < RowCount; ++i)
         for(int j = 0; j < ColCount; ++j)
-            WidgetMatrix[i][j] = WidgetMatrix[i][j] + MySquare->ShapeMatrix[i][j];
+            WidgetMatrix[i][j] = WidgetMatrix[i][j] + MyShape->ShapeMatrix[i][j];
+    qDebug() << "MainMatrix";
+    PrintMatrix(RowCount,ColCount);
 }
 
 void Board::OneStepDown() {
@@ -140,11 +166,15 @@ void Board::OneStepDown() {
         MySquare->MoveShapeDown(FirstRowToChange+1,SecondRowToChange);
         MySquare->MoveShapeDown(FirstRowToChange+1-1,SecondRowToChange-1);
         SetBoard(RowCount,ColCount);
-        SetShape();
+        SetShape(MySquare);
         repaint();
     } else {
         IsShapeOnBottom = true;
-        //to do
+        FirstColToChange=0;
+        SecondColToChange=0;
+        FirstRowToChange=0;
+        SecondRowToChange=0;
+        setRandomShape();
     }
 }
 
@@ -156,7 +186,7 @@ void Board::OneStepLeft() {
         MySquare->MoveShapeLeft(FirstColToChange+5,SecondColToChange+6);
         MySquare->MoveShapeLeft(FirstColToChange+6,SecondColToChange+7);
         SetBoard(RowCount,ColCount);
-        SetShape();
+        SetShape(MySquare);
         repaint();
     } else {
 
@@ -171,7 +201,7 @@ void Board::OneStepRight() {
         MySquare->MoveShapeRight(FirstColToChange+5,SecondColToChange+4);
         MySquare->MoveShapeRight(FirstColToChange+4,SecondColToChange+3);
         SetBoard(RowCount,ColCount);
-        SetShape();
+        SetShape(MySquare);
         repaint();
     } else {
         //to do

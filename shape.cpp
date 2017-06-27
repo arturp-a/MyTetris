@@ -28,6 +28,12 @@ void Square::CreateShape() {
     ShapeMatrix[0][4] = 0;
     ShapeMatrix[0][5] = 1;
     ShapeMatrix[0][6] = 0;
+    ShapeMatrix[0][7] = 0;
+    ShapeMatrix[0][8] = 0;
+    ShapeMatrix[0][9] = 0;
+    ShapeMatrix[0][10] = 0;
+    ShapeMatrix[0][11] = 0;
+    ShapeMatrix[0][12] = 0;
 
     ShapeMatrix[1][0] = 0;
     ShapeMatrix[1][1] = 0;
@@ -36,6 +42,12 @@ void Square::CreateShape() {
     ShapeMatrix[1][4] = 1;
     ShapeMatrix[1][5] = 1;
     ShapeMatrix[1][6] = 1;
+    ShapeMatrix[1][7] = 0;
+    ShapeMatrix[1][8] = 0;
+    ShapeMatrix[1][9] = 0;
+    ShapeMatrix[1][10] = 0;
+    ShapeMatrix[1][11] = 0;
+    ShapeMatrix[1][12] = 0;
 
     for (int i = 2; i < RowCount; i++) {
         for (int j=0; j < ColCount; j++) {
